@@ -3,27 +3,36 @@
 
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
-int main(int argc, char *argv[])
+struct Book
 {
-	char*pc  = NULL;
-	int i =0;
+	int number;
+	char title[10];
+};
+
+int main(int argc, char *argv[])
+{	int i;
+	struct Book **bookshelf;
 	
-	pc = (char*)malloc(100*sizeof(char));
-	if(pc == NULL)
-	{
-		printf("메모리 할당 오류\n");
-		exit(1);
-	}
+	bookshelf = (struct Book**)malloc(sizeof(struct Book*));		//구조체 포인터 변수 3개 할당 
+	for(i=0;i<3;i++)
+		bookshelf[i] = malloc(10*sizeof(struct Book));		//구조체 10개 할당 
 	
-	for(i=0;i<26;i++)
-	{
-		pc[i] = 'a' + i;
-	}
+	bookshelf[1][3].number = 5;
+	strcpy(bookshelf[1][3].title, "C++ Programming");
 	
-	pc[i] = 0;
-	printf("%s\n", pc);
-	free(pc);
+	(bookshelf[2]+4)->number = 3;
+	strcpy((bookshelf[2]+4)->title, "Communications Theory");
 	
+	printf("book(1,3): %i, %s\n",(bookshelf[1]+3)->number, (bookshelf[1]+3)->title);
+	printf("book(2,4): %i, %s\n", bookshelf[2][4].number, bookshelf[2][4].title);
+	
+	//구조체 포인터 3개가 가각 가리키는 주소 해제
+	for (i=0;i<3;i++)
+		free(bookshelf[i]);
+		
+	//구조체 이중 포인터가 가리키는 주소 해제
+	free(bookshelf);
+		
 	system("PAUSE");
 	return 0;
 }
